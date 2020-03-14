@@ -1,0 +1,31 @@
+{
+  "name": "frontend-project-lvl2",
+  "version": "1.0.0",
+  "description": "hexlet project",
+  "main": "scr/index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/maksdk/frontend-project-lvl2.git"
+  },
+  "keywords": [],
+  "author": "maksdk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/maksdk/frontend-project-lvl2/issues"
+  },
+  "homepage": "https://github.com/maksdk/frontend-project-lvl2#readme",
+  "dependencies": {
+    "commander": "^5.0.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.8.4",
+    "@babel/node": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.20.1"
+  }
+}
