@@ -3,10 +3,13 @@
 plugins:
   # https://github.com/benmosher/eslint-plugin-import
   - import
+  # https://github.com/jest-community/eslint-plugin-jest
+  - jest
 
 # https://eslint.org/docs/user-guide/configuring#specifying-environments
 env:
   node: true
+  jest: true
 
 # https://github.com/babel/babel-eslint
 parser: babel-eslint
@@ -15,6 +18,7 @@ extends:
   - plugin:import/errors
   - plugin:import/warnings
   - 'airbnb-base'
+  - 'plugin:jest/recommended'
 
 rules:
   no-console: 0
