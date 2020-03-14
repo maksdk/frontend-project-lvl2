@@ -1,5 +1,5 @@
 // @ts-check
-import compare from '../src/compare';
+import compare from '../src/engine/compare';
 
 test('check states compared config', () => {
   const existed = [
