@@ -4,7 +4,7 @@
   "description": "hexlet project",
   "main": "scr/index.js",
   "bin": {
-    "gendiff": "dist/bin/genDiff.js"
+    "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
     "debug": "babel src --out-dir .debug-compiled --source-maps --watch",
@@ -29,6 +29,7 @@
     "@babel/core": "^7.8.4",
     "@babel/node": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
+    "@types/node": "^13.9.1",
     "babel-eslint": "^10.0.3",
     "eslint": "^6.8.0",
     "eslint-config-airbnb-base": "^14.0.0",
