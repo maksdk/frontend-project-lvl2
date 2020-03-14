@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "description": "hexlet project",
   "main": "scr/index.js",
-  "scripts": {},
+  "bin": {
+    "gendiff": "dist/bin/genDiff.js"
+  },
+  "scripts": {
+    "debug": "babel src --out-dir .debug-compiled --source-maps --watch",
+    "build": "babel src --out-dir dist --source-maps inline"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/maksdk/frontend-project-lvl2.git"
