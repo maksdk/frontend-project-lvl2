@@ -1,7 +1,7 @@
 // @ts-check
-import generate from '../src/generator';
+import compare from '../src/compare';
 
-test('check generating of states', () => {
+test('check states compared config', () => {
   const existed = [
     { state: 'common', key: 'host', value: 'hexlet.io' },
     {
@@ -12,7 +12,7 @@ test('check generating of states', () => {
     { state: 'deleted', key: 'follow', value: false },
   ];
 
-  const expected = generate('configs/before.json', 'configs/after.json');
+  const expected = compare('configs/before.json', 'configs/after.json');
 
   expect(existed).toEqual(expect.arrayContaining(expected));
   expect(existed).toHaveLength(expected.length);

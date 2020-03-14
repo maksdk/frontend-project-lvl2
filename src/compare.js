@@ -22,7 +22,7 @@ const isDeletedProperty = (obj1, obj2, key) => (
   _.has(obj1, key) && !_.has(obj2, key)
 );
 
-export default (firstConfig, secondConfig) => {
+const compare = (firstConfig, secondConfig) => {
   const config1 = readConfig(fixPath(firstConfig));
   const parsedConfig1 = JSON.parse(config1);
 
@@ -50,3 +50,5 @@ export default (firstConfig, secondConfig) => {
     return [...acc, { state: 'new', key, value }];
   }, []);
 };
+
+export default compare;
