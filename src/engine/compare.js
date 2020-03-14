@@ -33,7 +33,6 @@ const compare = (firstConfig, secondConfig) => {
 
   return Object.entries(mergedConfigs).reduce((acc, [key, value]) => {
     if (isCommonProperty(parsedConfig1, parsedConfig2, key)) {
-      console.log(key);
       return [...acc, { state: 'common', key, value }];
     }
 
