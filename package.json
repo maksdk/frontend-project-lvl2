@@ -1,15 +1,16 @@
 {
   "name": "frontend-project-lvl2-maksdk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "hexlet project",
-  "main": "scr/main.js",
+  "main": "dist/main.js",
   "bin": {
     "gendiff": "dist/bin/gendiff.js"
   },
   "scripts": {
     "debug": "babel src --out-dir .debug-compiled --source-maps",
     "build": "babel src --out-dir dist --source-maps inline",
-    "test": "jest"
+    "test": "jest",
+    "prepublishOnly": "npm run build"
   },
   "repository": {
     "type": "git",
