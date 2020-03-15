@@ -17,7 +17,7 @@ jobs:
       run: |
         make lint
     - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v2.4.0
-        with:
-          coverageCommand: make test-coverage
-          debug: true
+      uses: paambaati/codeclimate-action@v2.4.0
+      with:
+        coverageCommand: make test-coverage
+        debug: true
