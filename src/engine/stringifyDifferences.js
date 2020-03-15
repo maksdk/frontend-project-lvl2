@@ -21,7 +21,7 @@ export default (differences) => {
 
       return [...acc, ...result];
     }, [])
-    .map((val) => `\t${val}`)
+    .map((val) => `  ${val}`)
     .join('\n');
 
   return `{\n${stringifiedDiffs}\n}`;
