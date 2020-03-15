@@ -10,6 +10,7 @@
     "debug": "babel src --out-dir .debug-compiled --source-maps",
     "build": "babel src --out-dir dist --source-maps inline",
     "test": "jest",
+    "test-coverage": "npn test -- --coverage",
     "prepublishOnly": "npm run build"
   },
   "repository": {
