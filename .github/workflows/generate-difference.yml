@@ -19,8 +19,8 @@ jobs:
     - name: Test
       run: |
         make test
-    - uses: paambaati/codeclimate-action@v2.4.0
     - name: Test covarage
+      uses: paambaati/codeclimate-action@v2.4.0
       with:
         coverageCommand: make test-coverage
         debug: true
