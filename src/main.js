@@ -11,11 +11,16 @@ const readConfig = (configPath) => {
 
 const fixPath = (str) => path.resolve(process.cwd(), str);
 
+const getExtension = (filename) => {
+  const ext = path.extname(filename).split('.');
+  return ext[ext.length - 1];
+};
+
 export default (firstConfig, secondConfig) => {
-  const ext1 = path.extname(firstConfig);
+  const ext1 = getExtension(firstConfig);
   const config1 = parse(readConfig(fixPath(firstConfig)), ext1);
 
-  const ext2 = path.extname(secondConfig);
+  const ext2 = getExtension(secondConfig);
   const config2 = parse(readConfig(fixPath(secondConfig)), ext2);
 
   const differences = compare(config1, config2);
