@@ -4,13 +4,13 @@
   "description": "hexlet project",
   "main": "dist/main.js",
   "bin": {
-    "gendiff": "dist/bin/gendiff.js"
+    "gendiff": "dist/bin/index.js"
   },
   "scripts": {
     "debug": "babel src --out-dir .debug-compiled --source-maps",
     "build": "babel src --out-dir dist --source-maps inline",
     "test": "jest",
-    "test-coverage": "npn test -- --coverage",
+    "test-coverage": "npm test -- --coverage",
     "prepublishOnly": "npm run build"
   },
   "repository": {
