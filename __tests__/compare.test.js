@@ -1,8 +1,17 @@
 // @ts-check
-import compare from '../src/engine/compare';
+import fs from 'fs';
+import path from 'path';
+
+import { compare } from '../src/engine.js';
+
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
+const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 test('check states compared config', () => {
-  const existed = [
+  const before = readFile('before.json');
+  const after = readFile('after.json');
+
+  const expected = [
     { state: 'common', key: 'host', value: 'hexlet.io' },
     {
       state: 'modified', key: 'timeout', value: 20, prevValue: 50,
@@ -12,8 +21,14 @@ test('check states compared config', () => {
     { state: 'deleted', key: 'follow', value: false },
   ];
 
-  const expected = compare('configs/before.json', 'configs/after.json');
 
-  expect(existed).toEqual(expect.arrayContaining(expected));
-  expect(existed).toHaveLength(expected.length);
+  const actual = compare(JSON.parse(before), JSON.parse(after));
+  expect(expected).toEqual(expect.arrayContaining(actual));
+  expect(expected).toHaveLength(actual.length);
+
+  // const result = readFile('result.txt');
+  // const actualStringified = stringify(actual);
+  // expect(actualStringified).toMatch(/host: hexlet.io/);
+  // expect(actualStringified).toMatch(/host: hexlet.io/);
+  // expect(actualStringified).toMatch(/host: hexlet.io/);
 });
