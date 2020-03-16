@@ -1,14 +1,8 @@
 // @ts-check
-import jsYaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
-
+import parse from '../src/parsers';
 import { compare } from '../src/engine.js';
-
-const parsers = {
-  json: JSON.parse,
-  yaml: jsYaml.safeLoad,
-};
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
@@ -24,22 +18,20 @@ const expected = [
 ];
 
 test('compare json files', () => {
-  const parse = parsers.json;
   const before = readFile('before.json');
   const after = readFile('after.json');
 
-  const actual = compare(parse(before), parse(after));
+  const actual = compare(parse(before, 'json'), parse(after, 'json'));
   expect(expected).toEqual(expect.arrayContaining(actual));
   expect(expected).toHaveLength(actual.length);
 });
 
 
 test('compare yaml files', () => {
-  const parse = parsers.yaml;
   const before = readFile('before.yaml');
   const after = readFile('after.yaml');
 
-  const actual = compare(parse(before), parse(after));
+  const actual = compare(parse(before, 'yaml'), parse(after, 'yaml'));
   expect(expected).toEqual(expect.arrayContaining(actual));
   expect(expected).toHaveLength(actual.length);
 });

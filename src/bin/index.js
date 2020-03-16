@@ -1,18 +1,13 @@
 #!/usr/bin/env node
 
 // @ts-check
-import jsYaml from 'js-yaml';
 import fs from 'fs';
 import path from 'path';
 import { program } from 'commander';
 import generate from '../main';
+import parse from '../parsers';
 // @ts-ignore
 import packageConfig from '../../package.json';
-
-const parsers = {
-  json: JSON.parse,
-  yaml: jsYaml.safeLoad,
-};
 
 const { version } = packageConfig;
 
@@ -30,12 +25,10 @@ program
   .arguments('<firstConfig> <secondConfig>')
   .action((firstConfig, secondConfig) => {
     const ext1 = path.extname(firstConfig);
-    const parse1 = parsers[ext1];
-    const config1 = parse1(readConfig(fixPath(firstConfig)));
+    const config1 = parse(readConfig(fixPath(firstConfig)), ext1);
 
     const ext2 = path.extname(secondConfig);
-    const parse2 = parsers[ext2];
-    const config2 = parse2(readConfig(fixPath(secondConfig)));
+    const config2 = parse(readConfig(fixPath(secondConfig)), ext2);
 
     console.log(generate(config1, config2));
   });
