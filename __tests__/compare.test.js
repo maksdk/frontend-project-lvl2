@@ -1,6 +1,7 @@
 // @ts-check
 import fs from 'fs';
 import path from 'path';
+import _ from 'lodash';
 import parse from '../src/parsers';
 import { compare } from '../src/engine.js';
 
@@ -22,8 +23,7 @@ test('compare json files', () => {
   const after = readFile('after.json');
 
   const actual = compare(parse(before, 'json'), parse(after, 'json'));
-  expect(expected).toEqual(expect.arrayContaining(actual));
-  expect(expected).toHaveLength(actual.length);
+  expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
 });
 
 
@@ -32,6 +32,14 @@ test('compare yaml files', () => {
   const after = readFile('after.yaml');
 
   const actual = compare(parse(before, 'yaml'), parse(after, 'yaml'));
-  expect(expected).toEqual(expect.arrayContaining(actual));
-  expect(expected).toHaveLength(actual.length);
+  expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
+});
+
+
+test('compare ini files', () => {
+  const before = readFile('before.ini');
+  const after = readFile('after.ini');
+
+  const actual = compare(parse(before, 'ini'), parse(after, 'ini'));
+  expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
 });
