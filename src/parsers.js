@@ -8,7 +8,7 @@ const parsers = {
 
 export default (config, type) => {
   if (!parsers[type]) {
-    throw new Error(`Such parser type: ${type} is not registered!`);
+    throw new Error(`Such file type: '${type}' is not supported.`);
   }
 
   const parse = parsers[type];
