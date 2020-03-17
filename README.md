@@ -14,6 +14,7 @@ Support formats
 ======
 * ```json```  
 * ```yaml```  
+* ```ini```  
 
 
 
@@ -22,4 +23,6 @@ Run examples
 
 [![asciicast](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX.svg)](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX)  
 
-[![asciicast](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL.svg)](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL)
+[![asciicast](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL.svg)](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL)  
+
+[![asciicast](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS.svg)](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS)
