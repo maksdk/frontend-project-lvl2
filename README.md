@@ -4,8 +4,6 @@
 
 <h1>Setup<h1>  
 <br>
-```$ npm install -g frontend-project-lvl2-maksdk```  
-
   
-[![asciicast](https://asciinema.org/a/8pVQpgaYmOrss7cTBkCmN0EQL.svg)](https://asciinema.org/a/8pVQpgaYmOrss7cTBkCmN0EQL)  
+```$ npm install -g frontend-project-lvl2-maksdk```   
   
