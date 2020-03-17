@@ -1,9 +1,22 @@
 // @ts-check
-import jsYaml from 'js-yaml';
+import yaml from 'js-yaml';
+import ini from 'ini';
 
 const parsers = {
   json: JSON.parse,
-  yaml: jsYaml.safeLoad,
+  yaml: yaml.safeLoad,
+  ini: ini.parse,
+};
+
+const fixNumberTypes = (obj) => {
+  const result = Object.entries(obj)
+    .reduce((acc, [key, value]) => {
+      if (typeof value === 'string' && !Number.isNaN(Number(value))) {
+        return { ...acc, [key]: Number(value) };
+      }
+      return { ...acc, [key]: value };
+    }, {});
+  return result;
 };
 
 export default (config, type) => {
@@ -12,5 +25,8 @@ export default (config, type) => {
   }
 
   const parse = parsers[type];
-  return parse(config);
+  const parsedResult = parse(config);
+  const fixedNumberTypesResult = fixNumberTypes(parsedResult);
+
+  return fixedNumberTypesResult;
 };
