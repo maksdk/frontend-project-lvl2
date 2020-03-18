@@ -19,8 +19,8 @@ const expected = [
 ];
 
 test('compare json files', () => {
-  const before = readFile('before.json');
-  const after = readFile('after.json');
+  const before = readFile('flat/before.json');
+  const after = readFile('flat/after.json');
 
   const actual = compare(parse(before, 'json'), parse(after, 'json'));
   expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
@@ -28,8 +28,8 @@ test('compare json files', () => {
 
 
 test('compare yaml files', () => {
-  const before = readFile('before.yaml');
-  const after = readFile('after.yaml');
+  const before = readFile('flat/before.yaml');
+  const after = readFile('flat/after.yaml');
 
   const actual = compare(parse(before, 'yaml'), parse(after, 'yaml'));
   expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
@@ -37,9 +37,96 @@ test('compare yaml files', () => {
 
 
 test('compare ini files', () => {
-  const before = readFile('before.ini');
-  const after = readFile('after.ini');
+  const before = readFile('flat/before.ini');
+  const after = readFile('flat/after.ini');
 
   const actual = compare(parse(before, 'ini'), parse(after, 'ini'));
   expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
+});
+
+
+test('compare inserted configs', () => {
+  const expected1 = [
+    {
+      key: 'common',
+      state: 'old',
+      children: [
+        { key: 'follow', value: false, state: 'new' },
+        { key: 'setting1', value: 'Value 1', state: 'old' },
+        { key: 'setting2', value: 200, state: 'deleted' },
+        {
+          key: 'setting3',
+          prevValue: true,
+          state: 'modified',
+          children: [
+            { key: 'key', value: 'value', state: 'old' },
+          ],
+        },
+        {
+          key: 'settings6',
+          state: 'old',
+          children: [
+            { key: 'key', value: 'value', state: 'old' },
+            { key: 'ops', value: 'vops', state: 'new' },
+          ],
+        },
+        { key: 'settings4', value: 'blah blah', state: 'new' },
+        {
+          key: 'settings5',
+          state: 'new',
+          children: [
+            { key: 'key5', value: 'value5' },
+          ],
+        },
+      ],
+    },
+    {
+      key: 'group1',
+      state: 'old',
+      children: [
+        {
+          key: 'baz',
+          value: 'bars',
+          state: 'modified',
+          prevValue: 'bas',
+        },
+        { key: 'foo', value: 'bar', state: 'old' },
+        {
+          key: 'nest',
+          state: 'modified',
+          value: 'str',
+          prevValue: {
+            children: [
+              { key: 'key', value: 'value' },
+            ],
+          },
+        },
+      ],
+    },
+    {
+      key: 'group2',
+      state: 'deleted',
+      value: {
+        children: [
+          { key: 'abc', value: 123456 },
+        ],
+      },
+    },
+    {
+      key: 'group3',
+      state: 'new',
+      value: {
+        children: [
+          { key: 'fee', value: 100500 },
+        ],
+      },
+    },
+  ];
+
+  const before = readFile('inserted/before.json');
+  const after = readFile('inserted/after.json');
+
+  const actual = compare(parse(before, 'json'), parse(after, 'json'));
+
+  expect(expected1).toEqual(actual);
 });
