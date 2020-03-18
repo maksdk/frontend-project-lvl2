@@ -9,7 +9,7 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 const expected = [
-  { state: 'common', key: 'host', value: 'hexlet.io' },
+  { state: 'old', key: 'host', value: 'hexlet.io' },
   {
     state: 'modified', key: 'timeout', value: 20, prevValue: 50,
   },
