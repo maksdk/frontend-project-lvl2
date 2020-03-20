@@ -2,7 +2,8 @@
 import fs from 'fs';
 import path from 'path';
 import parse from './parsers';
-import { compare, stringify } from './findDiff.js';
+import findDiff from './findDiff.js';
+import stringifyDiff from './stringifyDiff.js';
 
 const readConfig = (configPath) => {
   const result = fs.readFileSync(configPath, 'utf-8');
@@ -23,7 +24,7 @@ export default (firstConfig, secondConfig) => {
   const ext2 = getExtension(secondConfig);
   const config2 = parse(readConfig(fixPath(secondConfig)), ext2);
 
-  const differences = compare(config1, config2);
-  const stringified = stringify(differences);
+  const differences = findDiff(config1, config2);
+  const stringified = stringifyDiff(differences);
   return stringified;
 };
