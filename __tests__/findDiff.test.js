@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import _ from 'lodash';
 import parse from '../src/parsers';
-import { compare } from '../src/findDiff.js';
+import findDiff from '../src/findDiff.js';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
@@ -33,7 +33,7 @@ describe('compare flat configs', () => {
     const before = readFile('flat/before.json');
     const after = readFile('flat/after.json');
 
-    const actual = compare(parse(before, 'json'), parse(after, 'json'));
+    const actual = findDiff(parse(before, 'json'), parse(after, 'json'));
     expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
   });
 
@@ -41,7 +41,7 @@ describe('compare flat configs', () => {
     const before = readFile('flat/before.yaml');
     const after = readFile('flat/after.yaml');
 
-    const actual = compare(parse(before, 'yaml'), parse(after, 'yaml'));
+    const actual = findDiff(parse(before, 'yaml'), parse(after, 'yaml'));
     expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
   });
 
@@ -49,7 +49,7 @@ describe('compare flat configs', () => {
     const before = readFile('flat/before.ini');
     const after = readFile('flat/after.ini');
 
-    const actual = compare(parse(before, 'ini'), parse(after, 'ini'));
+    const actual = findDiff(parse(before, 'ini'), parse(after, 'ini'));
     expect(_.sortBy(expected, ['key'])).toEqual(_.sortBy(actual, ['key']));
   });
 });
@@ -124,7 +124,7 @@ describe('compare inserted configs', () => {
     const before = readFile('inserted/before.json');
     const after = readFile('inserted/after.json');
 
-    const actual = compare(parse(before, 'json'), parse(after, 'json'));
+    const actual = findDiff(parse(before, 'json'), parse(after, 'json'));
 
     recursiveMutableSort(expected);
     recursiveMutableSort(actual);
