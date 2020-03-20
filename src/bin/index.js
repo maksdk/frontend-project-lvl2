@@ -11,10 +11,11 @@ const { version } = packageConfig;
 program
   .version(version)
   .description('Compares two configuration files and shows a difference.')
-  .option('-f, --format [type]', 'output format')
+  .option('-f, --format [type]', 'output format', 'object')
   .arguments('<firstConfig> <secondConfig>')
-  .action((firstConfig, secondConfig) => {
-    console.log(generate(firstConfig, secondConfig));
+  .action((firstConfig, secondConfig, arg) => {
+    const { format } = arg;
+    console.log(generate(firstConfig, secondConfig, format));
   });
 
 program.parse(process.argv);

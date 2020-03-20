@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from './parsers';
 import findDiff from './findDiff.js';
-import stringifyDiff from './stringifyDiff.js';
+import formDiff from './formatters/index';
 
 const readConfig = (configPath) => {
   const result = fs.readFileSync(configPath, 'utf-8');
@@ -17,7 +17,7 @@ const getExtension = (filename) => {
   return ext[ext.length - 1];
 };
 
-export default (firstConfig, secondConfig) => {
+export default (firstConfig, secondConfig, format) => {
   const ext1 = getExtension(firstConfig);
   const config1 = parse(readConfig(fixPath(firstConfig)), ext1);
 
@@ -25,6 +25,6 @@ export default (firstConfig, secondConfig) => {
   const config2 = parse(readConfig(fixPath(secondConfig)), ext2);
 
   const differences = findDiff(config1, config2);
-  const stringified = stringifyDiff(differences);
+  const stringified = formDiff(differences, format);
   return stringified;
 };
