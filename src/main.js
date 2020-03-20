@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import parse from './parsers';
-import { compare, stringify } from './engine.js';
+import { compare, stringify } from './findDiff.js';
 
 const readConfig = (configPath) => {
   const result = fs.readFileSync(configPath, 'utf-8');
