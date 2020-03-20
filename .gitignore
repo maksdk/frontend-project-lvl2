@@ -6,3 +6,4 @@ coverage
 # dev
 .debug-compiled
 .vscode
+.local-scripts
