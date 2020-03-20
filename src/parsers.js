@@ -11,8 +11,8 @@ const parsers = {
 
 const isStringyfiedNumber = (value) => !Number.isNaN(Number(value));
 
-const fixNumberTypes = (obj) => {
-  return Object.entries(obj)
+const fixNumberTypes = (obj) => (
+  Object.entries(obj)
     .reduce((acc, [key, value]) => {
       if (_.isPlainObject(value)) {
         return { ...acc, [key]: fixNumberTypes(value) };
@@ -23,8 +23,8 @@ const fixNumberTypes = (obj) => {
       }
 
       return { ...acc, [key]: value };
-    }, {});
-};
+    }, {})
+);
 
 export default (config, type) => {
   if (!parsers[type]) {
