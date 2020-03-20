@@ -19,7 +19,9 @@ Support formats
 
 
 Run examples
-=== 
+===  
+
+[![asciicast](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl.svg)](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl)  
 
 [![asciicast](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX.svg)](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX)  
 
