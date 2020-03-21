@@ -83,12 +83,12 @@ const generateModifiedProperty = (obj1, obj2, key) => {
   };
 };
 
-const compare = (obj1, obj2) => {
+const findDiff = (obj1, obj2) => {
   const mergedObjs = { ...obj1, ...obj2 };
 
   return Object.entries(mergedObjs).reduce((acc, [key, value]) => {
     if (isObjectsProperty(obj1, obj2, key)) {
-      return [...acc, { state: states.unchanged, key, children: compare(obj1[key], obj2[key]) }];
+      return [...acc, { state: states.unchanged, key, children: findDiff(obj1[key], obj2[key]) }];
     }
 
     if (isUnchangedProperty(obj1, obj2, key)) {
@@ -111,4 +111,4 @@ const compare = (obj1, obj2) => {
   }, []);
 };
 
-export default compare;
+export default findDiff;
