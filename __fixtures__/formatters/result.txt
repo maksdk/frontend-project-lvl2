@@ -1,10 +1,10 @@
-Property five.six was changed from 'six' to 'not - six'
-Property four was added with value: 'four'
-Property seven was added with value: [complex value]
-Property one was deleted
-Property two was deleted
-Property ten was changed from 10 to 100
-Property twelve was changed from 'twelve' to [complex value]
-Property twenty.one was changed from 'one' to 'not-one'
-Property twenty.five was deleted
-Property twenty.three was added with value: [complex value]
+Property 'five.six' was changed from 'six' to 'not - six'
+Property 'four' was added with value: 'four'
+Property 'seven' was added with value: [complex value]
+Property 'one' was deleted
+Property 'two' was deleted
+Property 'ten' was changed from 10 to 100
+Property 'twelve' was changed from 'twelve' to [complex value]
+Property 'twenty.one' was changed from 'one' to 'not - one'
+Property 'twenty.five' was deleted
+Property 'twenty.three' was added with value: [complex value]
