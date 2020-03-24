@@ -22,10 +22,10 @@ describe('compare flat configs', () => {
   const expected = [
     { state: 'unchanged', key: 'host', value: 'hexlet.io' },
     {
-      state: 'modified', key: 'timeout', value: 20, oldValue: 50,
+      state: 'changed', key: 'timeout', value: 20, oldValue: 50,
     },
     { state: 'deleted', key: 'proxy', value: '123.234.53.22' },
-    { state: 'new', key: 'verbose', value: true },
+    { state: 'added', key: 'verbose', value: true },
     { state: 'deleted', key: 'follow', value: false },
   ];
 
@@ -55,69 +55,108 @@ describe('compare flat configs', () => {
 });
 
 
-describe('compare inserted configs', () => {
-  it('json format', () => {
+describe('compare inserted objects', () => {
+  it('test 1', () => {
+    const obj1 = {
+      key1: 'key1',
+      key2: {
+        prop1: 'prop1',
+        prop2: 'prop2',
+      },
+    };
+
+    const obj2 = {
+      key1: 'changed-key1',
+      key2: {
+        prop1: 'prop1',
+        prop2: {
+          changed1: 100,
+        },
+      },
+    };
+
+    const expected = [
+      {
+        key: 'key1',
+        state: 'changed',
+        value: 'changed-key1',
+        oldValue: 'key1',
+      },
+      {
+        key: 'key2',
+        children: [
+          { key: 'prop1', state: 'unchanged', value: 'prop1' },
+          {
+            key: 'prop2',
+            state: 'changed',
+            value: { changed1: 100 },
+            oldValue: 'prop2',
+          }],
+      },
+    ];
+
+    const actual = findDiff(obj1, obj2);
+
+    recursiveMutableSort(expected);
+    recursiveMutableSort(actual);
+
+    expect(expected).toEqual(actual);
+  });
+
+  it('test 2', () => {
     const expected = [
       {
         key: 'common',
-        state: 'unchanged',
         children: [
-          { key: 'follow', value: false, state: 'new' },
+          { key: 'follow', value: false, state: 'added' },
           { key: 'setting1', value: 'Value 1', state: 'unchanged' },
           { key: 'setting2', value: 200, state: 'deleted' },
           {
             key: 'setting3',
             oldValue: true,
-            state: 'modified',
-            children: [
-              { key: 'key', value: 'value' }],
+            state: 'changed',
+            value: { key: 'value' },
           },
           {
             key: 'setting6',
-            state: 'unchanged',
             children: [
               { key: 'key', value: 'value', state: 'unchanged' },
-              { key: 'ops', value: 'vops', state: 'new' }],
+              { key: 'ops', value: 'vops', state: 'added' }],
           },
-          { key: 'setting4', value: 'blah blah', state: 'new' },
+          { key: 'setting4', value: 'blah blah', state: 'added' },
           {
             key: 'setting5',
-            state: 'new',
-            children: [
-              { key: 'key5', value: 'value5' }],
+            state: 'added',
+            value: { key5: 'value5' },
           },
         ],
       },
       {
         key: 'group1',
-        state: 'unchanged',
         children: [
           {
             key: 'baz',
             value: 'bars',
-            state: 'modified',
+            state: 'changed',
             oldValue: 'bas',
           },
           { key: 'foo', value: 'bar', state: 'unchanged' },
           {
             key: 'nest',
-            state: 'modified',
+            state: 'changed',
             value: 'str',
-            oldValue: [
-              { key: 'key', value: 'value' }],
+            oldValue: { key: 'value' },
           }],
       },
       {
         key: 'group2',
         state: 'deleted',
-        children: [
-          { key: 'abc', value: 123456 }],
+        value: { abc: 123456 },
       },
       {
         key: 'group3',
-        state: 'new',
-        children: [
-          { key: 'fee', value: 100500 }],
+        state: 'added',
+        value: { fee: 100500 },
       },
     ];
 
