@@ -21,6 +21,8 @@ Support formats
 Run examples
 ===  
 
+[![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
+
 [![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
 
 [![asciicast](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl.svg)](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl)  
