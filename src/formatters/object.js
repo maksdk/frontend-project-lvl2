@@ -16,9 +16,6 @@ const wrapValues = (values, depth) => {
 };
 
 const stringifyValue = (value, depth = 0) => {
-  if (_.isBoolean(value)) return value;
-  if (_.isNull(value)) return value;
-  if (_.isNumber(value)) return value;
   if (_.isString(value)) return `'${value}'`;
   if (_.isPlainObject(value)) {
     const values = Object.entries(value)
@@ -26,7 +23,7 @@ const stringifyValue = (value, depth = 0) => {
 
     return wrapValues(values, depth);
   }
-  throw new Error(`Such value type: ${value} is not supported!`);
+  return value;
 };
 
 const stringifyDifferences = (differences, depth) => {
