@@ -1,10 +1,12 @@
 // @ts-check
 import formToObject from './object';
 import formToPlain from './plain';
+import fromToJson from './json';
 
 const mapTypes = {
   object: formToObject,
   plain: formToPlain,
+  json: fromToJson,
 };
 
 export default (diffs, type) => {
