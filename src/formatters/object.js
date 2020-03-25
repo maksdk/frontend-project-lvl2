@@ -75,4 +75,4 @@ const stringifyDifferences = (differences, depth) => {
   return wrapValues(values, depth);
 };
 
-export default (differences) => stringifyDifferences(differences, 0);
+export default (differences) => stringifyDifferences(differences, 1);
