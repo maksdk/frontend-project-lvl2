@@ -22,24 +22,20 @@ Support format output
 * ```plain```  
 * ```json```  
 
-Run examples
-====  
 
-
-**Object format:**  
-
+Object format example:  
+===  
 [![asciicast](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl.svg)](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl)  
 
 
-
-**Plain format:**  
-
+Plain format example:  
+===  
 [![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
 
 
 
-**Json format:**  
-
+Json format example:  
+===  
 [![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
 
   
