@@ -1,0 +1,11 @@
+Property 'complex' was changed from [complex value] to 'not-complex'
+Property 'children.child1' was changed from 'child1' to [complex value]
+Property 'children.child2' was changed from 'child2' to 'new-child2'
+Property 'children.child3.child4' was added with value: 'inner-child'
+Property 'children.child3.num' was changed from 5 to 1
+Property 'complex2' was added with value: [complex value]
+Property 'null' was deleted
+Property 'number' was deleted
+Property 'almostNumber' was changed from '100' to 100
+Property 'boolean' was changed from true to false
+Property 'almostBool' was changed from 'true' to 'false'
