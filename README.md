@@ -10,15 +10,19 @@ Setup
 [![asciicast](https://asciinema.org/a/8pVQpgaYmOrss7cTBkCmN0EQL.svg)](https://asciinema.org/a/8pVQpgaYmOrss7cTBkCmN0EQL)  
 
 
-Support formats
+Support file formats
 ======
 * ```json```  
 * ```yaml```  
 * ```ini```  
 
+Support format output
+======
+* ```object``` - default value  
+* ```plain```  
+* ```json```  
 
-
-Run examples
+Examples
 ===  
 
 [![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
