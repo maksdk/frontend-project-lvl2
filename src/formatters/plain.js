@@ -2,9 +2,12 @@
 import _ from 'lodash';
 
 const stringifyValue = (value) => {
-  if (_.isObject(value)) return '[complex value]';
+  if (_.isBoolean(value)) return value;
+  if (_.isNull(value)) return value;
   if (_.isNumber(value)) return value;
-  return `'${value}'`;
+  if (_.isString(value)) return `'${value}'`;
+  if (_.isObject(value)) return '[complex value]';
+  throw new Error(`Such value type: ${value} is not supported!`);
 };
 
 const mapTexts = {
