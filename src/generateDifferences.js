@@ -21,12 +21,12 @@ const isUnchangedProperty = (obj1, obj2, key) => (
   _.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))
 );
 
-const findDiff = (obj1, obj2) => {
+const generateDifferences = (obj1, obj2) => {
   const mergedObjs = { ...obj1, ...obj2 };
 
   return Object.entries(mergedObjs).reduce((acc, [key, value]) => {
     if (isObjectsProperty(obj1, obj2, key)) {
-      return [...acc, { key, children: findDiff(obj1[key], obj2[key]) }];
+      return [...acc, { key, children: generateDifferences(obj1[key], obj2[key]) }];
     }
 
     if (isUnchangedProperty(obj1, obj2, key)) {
@@ -54,4 +54,4 @@ const findDiff = (obj1, obj2) => {
   }, []);
 };
 
-export default findDiff;
+export default generateDifferences;

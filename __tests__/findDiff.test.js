@@ -2,7 +2,7 @@
 import fs from 'fs';
 import path from 'path';
 import parse from '../src/parsers';
-import findDiff from '../src/findDiff.js';
+import generateDifferences from '../src/generateDifferences';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
@@ -24,7 +24,7 @@ describe('compare inserted objects', () => {
     const before = readFile('diffs/before.json');
     const after = readFile('diffs/after.json');
 
-    const actual = findDiff(parse(before, 'json'), parse(after, 'json'));
+    const actual = generateDifferences(parse(before, 'json'), parse(after, 'json'));
 
     recursiveMutableSort(expected);
     recursiveMutableSort(actual);
@@ -38,7 +38,7 @@ describe('compare inserted objects', () => {
     const before = readFile('diffs/before.yaml');
     const after = readFile('diffs/after.yaml');
 
-    const actual = findDiff(parse(before, 'yaml'), parse(after, 'yaml'));
+    const actual = generateDifferences(parse(before, 'yaml'), parse(after, 'yaml'));
 
     recursiveMutableSort(expected);
     recursiveMutableSort(actual);
@@ -52,7 +52,7 @@ describe('compare inserted objects', () => {
     const before = readFile('diffs/before.ini');
     const after = readFile('diffs/after.ini');
 
-    const actual = findDiff(parse(before, 'ini'), parse(after, 'ini'));
+    const actual = generateDifferences(parse(before, 'ini'), parse(after, 'ini'));
 
     recursiveMutableSort(expected);
     recursiveMutableSort(actual);
