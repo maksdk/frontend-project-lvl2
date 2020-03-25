@@ -9,7 +9,7 @@ const parsers = {
   ini: ini.parse,
 };
 
-const isStringyfiedNumber = (value) => !Number.isNaN(Number(value));
+const isStringyfiedNumber = (value) => _.isString(value) && !Number.isNaN(Number(value));
 
 const fixNumberTypes = (obj) => (
   Object.entries(obj)
@@ -18,7 +18,7 @@ const fixNumberTypes = (obj) => (
         return { ...acc, [key]: fixNumberTypes(value) };
       }
 
-      if (typeof value === 'string' && isStringyfiedNumber(value)) {
+      if (isStringyfiedNumber(value)) {
         return { ...acc, [key]: Number(value) };
       }
 
