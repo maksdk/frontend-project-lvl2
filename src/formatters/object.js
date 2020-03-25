@@ -16,12 +16,17 @@ const wrapValues = (values, depth) => {
 };
 
 const stringifyValue = (value, depth = 0) => {
-  if (!_.isPlainObject(value)) return value;
+  if (_.isBoolean(value)) return value;
+  if (_.isNull(value)) return value;
+  if (_.isNumber(value)) return value;
+  if (_.isString(value)) return `'${value}'`;
+  if (_.isPlainObject(value)) {
+    const values = Object.entries(value)
+      .map(([k, v]) => `${generateMargin(depth, defaultMargin, '')}${k}: ${stringifyValue(v, depth + 1)}`);
 
-  const values = Object.entries(value)
-    .map(([k, v]) => `${generateMargin(depth, defaultMargin, '')}${k}: ${stringifyValue(v, depth + 1)}`);
-
-  return wrapValues(values, depth);
+    return wrapValues(values, depth);
+  }
+  throw new Error(`Such value type: ${value} is not supported!`);
 };
 
 const stringifyDifferences = (differences, depth) => {
@@ -75,4 +80,7 @@ const stringifyDifferences = (differences, depth) => {
   return wrapValues(values, depth);
 };
 
-export default (differences) => stringifyDifferences(differences, 1);
+export default (differences) => {
+  if (differences.length === 0) return '{}';
+  return stringifyDifferences(differences, 1);
+};
