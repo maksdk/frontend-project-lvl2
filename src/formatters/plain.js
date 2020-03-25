@@ -13,8 +13,8 @@ const mapTexts = {
   added: (key, newValue) => `Property '${key}' was added with value: ${stringifyValue(newValue)}`,
 };
 
-const removeUnchangedProperties = (differences) => {
-  return differences.reduce((acc, diff) => {
+const removeUnchangedProperties = (differences) => (
+  differences.reduce((acc, diff) => {
     const { children, state } = diff;
 
     if (state === 'unchanged') {
@@ -26,8 +26,8 @@ const removeUnchangedProperties = (differences) => {
     }
 
     return [...acc, diff];
-  }, []);
-};
+  }, [])
+);
 
 const generateFlattenFullPaths = (differences) => {
   const iter = (diff, pathAcc, acc) => {
@@ -44,8 +44,8 @@ const generateFlattenFullPaths = (differences) => {
   return differences.reduce((acc, diff) => [...acc, ...iter(diff, [], [])], []);
 };
 
-const stringifyDifferences = (differences) => {
-  return differences.map((diff) => {
+const stringifyDifferences = (differences) => (
+  differences.map((diff) => {
     const {
       state,
       value,
@@ -53,8 +53,8 @@ const stringifyDifferences = (differences) => {
       fullPath,
     } = diff;
     return mapTexts[state](fullPath.join('.'), value, oldValue);
-  }).join('\n');
-};
+  }).join('\n')
+);
 
 export default (differences) => {
   const clearedFromUnchanged = removeUnchangedProperties(differences);
