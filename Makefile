@@ -6,7 +6,7 @@ publish:
 	npm publish
 
 run:
-	npx babel-node src/bin/genDiff.js
+	npx babel-node src/bin/index.js
 	
 lint:
 	npx eslint .
