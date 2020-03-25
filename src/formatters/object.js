@@ -3,6 +3,12 @@ import _ from 'lodash';
 
 const defaultMargin = ' '.repeat(3);
 
+const mapPrefixes = {
+  added: '+ ',
+  unchanged: '  ',
+  deleted: '- ',
+};
+
 const generateMargin = (depth, margin, prefix = '') => {
   const fullMargin = margin.repeat(depth);
   const splitedMargin = fullMargin.split('');
@@ -42,18 +48,6 @@ const stringifyDifferences = (differences, depth) => {
       return [...acc, `${margin}${key}: ${stringifyDifferences(children, depth + 1)}`];
     }
 
-    if (state === 'added') {
-      const prefix = '+ ';
-      const margin = generateMargin(depth, defaultMargin, prefix);
-      return [...acc, `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
-    }
-
-    if (state === 'deleted') {
-      const prefix = '- ';
-      const margin = generateMargin(depth, defaultMargin, prefix);
-      return [...acc, `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
-    }
-
     if (state === 'changed') {
       const prefix1 = '+ ';
       const prefix2 = '- ';
@@ -65,13 +59,13 @@ const stringifyDifferences = (differences, depth) => {
         `${margin2}${key}: ${stringifyValue(oldValue, depth + 1)}`];
     }
 
-    if (state === 'unchanged') {
-      const prefix = '  ';
-      const margin = generateMargin(depth, defaultMargin, prefix);
-      return [...acc, `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
+    const prefix = mapPrefixes[state];
+    if (!prefix) {
+      throw new Error(`Such state: ${state} is not registered!`);
     }
 
-    throw new Error(`Such state: ${state} is not registered!`);
+    const margin = generateMargin(depth, defaultMargin, prefix);
+    return [...acc, `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
   }, []);
 
   return wrapValues(values, depth);
