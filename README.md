@@ -22,17 +22,24 @@ Support format output
 * ```plain```  
 * ```json```  
 
-Examples
-===  
+Run examples
+====  
 
-[![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
 
-[![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
+**Object format:**  
 
 [![asciicast](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl.svg)](https://asciinema.org/a/DjkSrl6YGqTtW9EQ1NuJP3dUl)  
 
-[![asciicast](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX.svg)](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX)  
 
-[![asciicast](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL.svg)](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL)  
 
-[![asciicast](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS.svg)](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS)
+**Plain format:**  
+
+[![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
+
+
+
+**Json format:**  
+
+[![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
+
+  
