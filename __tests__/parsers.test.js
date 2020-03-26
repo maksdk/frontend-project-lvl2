@@ -30,68 +30,34 @@ const insertedExpectedOnlyStrings = {
   prop2: { ...insertedExpected.prop2, abc: '123456' },
 };
 
-describe('parse json', () => {
-  it('flat object', () => {
-    const stringyfied = JSON.stringify(flatExpected);
-    expect(flatExpected).toEqual(parse(stringyfied, 'json'));
-  });
+const mapStringifiedGenerators = {
+  json: JSON.stringify,
+  yaml: yaml.safeDump,
+  ini: ini.stringify,
+};
 
-  it('flat object. check number types', () => {
-    const stringyfied = JSON.stringify({ ...flatExpected, timeout: '50' });
-    expect(flatExpected).toEqual(parse(stringyfied, 'json'));
-  });
+const formats = ['json', 'yaml', 'ini'];
 
-  it('inserted object', () => {
-    const stringyfied = JSON.stringify(insertedExpected);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'json'));
-  });
+formats.forEach((format) => {
+  describe(`Parse ${format}`, () => {
+    it('flat object', () => {
+      const stringyfied = mapStringifiedGenerators[format](flatExpected);
+      expect(flatExpected).toEqual(parse(stringyfied, format));
+    });
 
-  it('inserted object. check number types', () => {
-    const stringyfied = JSON.stringify(insertedExpectedOnlyStrings);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'json'));
-  });
-});
+    it('flat object. check number types', () => {
+      const stringyfied = mapStringifiedGenerators[format]({ ...flatExpected, timeout: '50' });
+      expect(flatExpected).toEqual(parse(stringyfied, format));
+    });
 
-describe('parse yaml', () => {
-  it('flat object', () => {
-    const stringyfied = yaml.safeDump(flatExpected);
-    expect(flatExpected).toEqual(parse(stringyfied, 'yaml'));
-  });
+    it('inserted object', () => {
+      const stringyfied = mapStringifiedGenerators[format](insertedExpected);
+      expect(insertedExpected).toEqual(parse(stringyfied, format));
+    });
 
-  it('flat object. check number types', () => {
-    const stringyfied = yaml.safeDump({ ...flatExpected, timeout: '50' });
-    expect(flatExpected).toEqual(parse(stringyfied, 'yaml'));
-  });
-
-  it('inserted object', () => {
-    const stringyfied = yaml.safeDump(insertedExpected);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'yaml'));
-  });
-
-  it('inserted object. check number types', () => {
-    const stringyfied = yaml.safeDump(insertedExpectedOnlyStrings);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'yaml'));
-  });
-});
-
-describe('parse ini', () => {
-  it('flat object', () => {
-    const stringyfied = ini.stringify(flatExpected);
-    expect(flatExpected).toEqual(parse(stringyfied, 'ini'));
-  });
-
-  it('flat object. check number types', () => {
-    const stringyfied = ini.stringify({ ...flatExpected, timeout: '50' });
-    expect(flatExpected).toEqual(parse(stringyfied, 'ini'));
-  });
-
-  it('inserted object', () => {
-    const stringyfied = ini.stringify(insertedExpected);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'ini'));
-  });
-
-  it('inserted object. check number types', () => {
-    const stringyfied = ini.stringify(insertedExpectedOnlyStrings);
-    expect(insertedExpected).toEqual(parse(stringyfied, 'ini'));
+    it('inserted object. check number types', () => {
+      const stringyfied = mapStringifiedGenerators[format](insertedExpectedOnlyStrings);
+      expect(insertedExpected).toEqual(parse(stringyfied, format));
+    });
   });
 });
