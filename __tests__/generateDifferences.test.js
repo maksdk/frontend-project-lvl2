@@ -22,7 +22,7 @@ const formats = ['json', 'yaml', 'ini'];
 describe('Generate differences', () => {
   formats.forEach((format) => {
     it(`Test ${format} files`, () => {
-      const expected = JSON.parse(readFile('diffs/expected.json'));
+      const expected = JSON.parse(readFile('diffs/generatedDifferences.json'));
 
       const before = readFile(`diffs/before.${format}`);
       const after = readFile(`diffs/after.${format}`);
