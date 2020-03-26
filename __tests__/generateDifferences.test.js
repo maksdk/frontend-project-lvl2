@@ -17,46 +17,23 @@ const recursiveMutableSort = (arr) => {
   });
 };
 
-describe('compare inserted objects', () => {
-  it('Test json format', () => {
-    const expected = JSON.parse(readFile('diffs/expected.json'));
+const formats = ['json', 'yaml', 'ini'];
 
-    const before = readFile('diffs/before.json');
-    const after = readFile('diffs/after.json');
+describe('Generate differences', () => {
+  formats.forEach((format) => {
+    it(`Test ${format} files`, () => {
+      const expected = JSON.parse(readFile('diffs/expected.json'));
 
-    const actual = generateDifferences(parse(before, 'json'), parse(after, 'json'));
+      const before = readFile(`diffs/before.${format}`);
+      const after = readFile(`diffs/after.${format}`);
 
-    recursiveMutableSort(expected);
-    recursiveMutableSort(actual);
+      const actual = generateDifferences(parse(before, format), parse(after, format));
 
-    expect(expected).toEqual(actual);
-  });
+      recursiveMutableSort(expected);
+      recursiveMutableSort(actual);
 
-  it('Test yaml format', () => {
-    const expected = JSON.parse(readFile('diffs/expected.json'));
-
-    const before = readFile('diffs/before.yaml');
-    const after = readFile('diffs/after.yaml');
-
-    const actual = generateDifferences(parse(before, 'yaml'), parse(after, 'yaml'));
-
-    recursiveMutableSort(expected);
-    recursiveMutableSort(actual);
-
-    expect(expected).toEqual(actual);
-  });
-
-  it('Test ini format', () => {
-    const expected = JSON.parse(readFile('diffs/expected.json'));
-
-    const before = readFile('diffs/before.ini');
-    const after = readFile('diffs/after.ini');
-
-    const actual = generateDifferences(parse(before, 'ini'), parse(after, 'ini'));
-
-    recursiveMutableSort(expected);
-    recursiveMutableSort(actual);
-
-    expect(expected).toEqual(actual);
+      expect([]).toEqual([]);
+      expect(expected).toEqual(actual);
+    });
   });
 });
