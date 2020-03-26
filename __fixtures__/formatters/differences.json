@@ -1,0 +1,74 @@
+[
+  {
+    "state": "changed",
+    "key": "complex",
+    "value": "not-complex",
+    "oldValue": {
+      "value": "complex"
+    }
+  },
+  {
+    "key": "children",
+    "children": [
+      { "state": "unchanged", "key": "prop1", "value": "prop1" },
+      {
+        "state": "changed",
+        "key": "child1",
+        "value": { "value1": 100 },
+        "oldValue": "child1"
+      },
+      {
+        "state": "changed",
+        "key": "child2",
+        "value": "new-child2",
+        "oldValue": "child2"
+      },
+      {
+        "key": "child3",
+        "children": [
+          { "state": "added", "key": "child4", "value": "inner-child" },
+          {
+            "state": "changed",
+            "key": "num",
+            "value": 1,
+            "oldValue": 5
+          }]
+      }]
+  },
+  {
+    "state": "added",
+    "key": "complex2",
+    "value": {
+      "value1": "value1",
+      "value2": "value2"
+    }
+  },
+  {
+    "state": "deleted",
+    "key": "null",
+    "value": null
+  },
+  {
+    "state": "deleted",
+    "key": "number",
+    "value": 100
+  },
+  {
+    "state": "changed",
+    "key": "almostNumber",
+    "value": 100,
+    "oldValue": "100"
+  },
+  {
+    "state": "changed",
+    "key": "boolean",
+    "value": false,
+    "oldValue": true
+  },
+  {
+    "state": "changed",
+    "key": "almostBool",
+    "value": "false",
+    "oldValue": "true"
+  }
+]
