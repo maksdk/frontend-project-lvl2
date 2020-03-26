@@ -50,7 +50,7 @@ const generateDifferences = (obj1, obj2) => {
       return [...acc, { value, key, state: 'added' }];
     }
 
-    throw new Error('Such state is not registered!');
+    throw new Error('Unrecognized type of the difference');
   }, []);
 };
 
