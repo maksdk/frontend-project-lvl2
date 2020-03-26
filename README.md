@@ -16,6 +16,19 @@ Support file formats
 * ```yaml```  
 * ```ini```  
 
+Json file format example:
+===  
+[![asciicast](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX.svg)](https://asciinema.org/a/UdFx2Z2MRbPIS3brAKY9WHfZX)  
+
+Yaml file format example:
+===  
+[![asciicast](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL.svg)](https://asciinema.org/a/mSxYh3nFlr2bCPmfEYh7Ck8DL)  
+
+Ini file format example:
+===  
+[![asciicast](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS.svg)](https://asciinema.org/a/FFxIzEWgPjUoRYcRnASOTWfkS)  
+
+
 Support format output
 ======
 * ```object``` - default value  
