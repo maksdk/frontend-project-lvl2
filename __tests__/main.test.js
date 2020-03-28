@@ -3,7 +3,7 @@ import generate from '../src/main';
 
 const outputFormats = ['object', 'plain', 'json'];
 const fileFormats = ['json', 'yaml', 'ini'];
-const path = '__fixtures__/diffs/';
+const path = '__fixtures__/';
 
 describe('Main application test', () => {
   it('Exceptions', () => {
