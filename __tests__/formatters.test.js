@@ -1,14 +1,23 @@
 // @ts-check
-import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import uniqueString from 'unique-string';
 import formTo from '../src/formatters';
 
-const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 'formatters', filename);
+const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
-const differences = JSON.parse(readFile('differences.json'));
+const differences = JSON.parse(readFile('generatedDifferences.json'));
+
+const recursiveMutableSort = (arr) => {
+  arr.sort((a, b) => {
+    if (a.children) recursiveMutableSort(a.children);
+    if (b.children) recursiveMutableSort(b.children);
+    if (a.key > b.key) return 1;
+    if (a.key < b.key) return -1;
+    return 0;
+  });
+};
 
 describe('Object formatter', () => {
   it('Test 1', () => {
@@ -17,8 +26,18 @@ describe('Object formatter', () => {
   });
 
   it('Test 2', () => {
-    const expected = readFile('object.txt').replace(/\s/gm, '');
-    const actual = formTo(differences, 'object').replace(/\s/gm, '');
+    const expected = readFile('formattersOutput/object.txt')
+      .replace(/(\r\n|\n|\r)/gm, '')
+      .split(' ')
+      .filter((v) => v !== '')
+      .sort();
+
+    const actual = formTo(differences, 'object')
+      .replace(/(\r\n|\n|\r)/gm, '')
+      .split(' ')
+      .filter((v) => v !== '')
+      .sort();
+
     expect(expected).toEqual(actual);
   });
 });
@@ -31,9 +50,18 @@ describe('Plain formatter', () => {
 
   it('Test 2', () => {
     const separator = uniqueString();
-    const expected = readFile('plain.txt').replace(/(\r\n|\n|\r)/gm, separator).split(separator);
-    const actual = formTo(differences, 'plain').replace(/(\r\n|\n|\r)/gm, separator).split(separator);
-    expect(_.sortBy(expected)).toEqual(_.sortBy(actual));
+
+    const expected = readFile('formattersOutput/plain.txt')
+      .replace(/(\r\n|\n|\r)/gm, separator)
+      .split(separator)
+      .sort();
+
+    const actual = formTo(differences, 'plain')
+      .replace(/(\r\n|\n|\r)/gm, separator)
+      .split(separator)
+      .sort();
+
+    expect(expected).toEqual(actual);
   });
 });
 
@@ -44,8 +72,15 @@ describe('Json formatter', () => {
   });
 
   it('Test 2', () => {
-    const expected = readFile('json.txt').replace(/\s/gm, '');
+    const expected = readFile('formattersOutput/json.txt');
     const actual = formTo(differences, 'json');
-    expect(expected).toEqual(actual);
+
+    const parsedExpected = JSON.parse(expected);
+    const parsedActual = JSON.parse(actual);
+
+    recursiveMutableSort(parsedExpected);
+    recursiveMutableSort(parsedActual);
+
+    expect(parsedExpected).toEqual(parsedActual);
   });
 });
