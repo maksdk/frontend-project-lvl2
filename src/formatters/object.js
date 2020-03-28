@@ -1,7 +1,7 @@
 // @ts-check
 import _ from 'lodash';
 
-const defaultMargin = ' '.repeat(3);
+const defaultMargin = ' '.repeat(4);
 
 const mapPrefixes = {
   added: '+ ',
