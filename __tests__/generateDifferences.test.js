@@ -3,7 +3,7 @@ import fs from 'fs';
 import path from 'path';
 import parse from '../src/parsers';
 import generateDifferences from '../src/generateDifferences';
-import sortDifferencesMutable from './utils';
+import sortDifferencesMutable from '../src/utils';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
