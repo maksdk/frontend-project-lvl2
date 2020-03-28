@@ -3,19 +3,10 @@ import fs from 'fs';
 import path from 'path';
 import parse from '../src/parsers';
 import generateDifferences from '../src/generateDifferences';
+import sortDifferencesMutable from './utils';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
-
-const recursiveMutableSort = (arr) => {
-  arr.sort((a, b) => {
-    if (a.children) recursiveMutableSort(a.children);
-    if (b.children) recursiveMutableSort(b.children);
-    if (a.key > b.key) return 1;
-    if (a.key < b.key) return -1;
-    return 0;
-  });
-};
 
 const formats = ['json', 'yaml', 'ini'];
 
@@ -29,8 +20,8 @@ describe('Generate differences', () => {
 
       const actual = generateDifferences(parse(before, format), parse(after, format));
 
-      recursiveMutableSort(expected);
-      recursiveMutableSort(actual);
+      sortDifferencesMutable(expected);
+      sortDifferencesMutable(actual);
 
       expect([]).toEqual([]);
       expect(expected).toEqual(actual);

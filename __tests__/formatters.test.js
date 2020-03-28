@@ -3,21 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import uniqueString from 'unique-string';
 import formTo from '../src/formatters';
+import sortDifferencesMutable from './utils';
 
 const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', filename);
 const readFile = (filename) => fs.readFileSync(getFixturePath(filename), 'utf-8');
 
 const differences = JSON.parse(readFile('generatedDifferences.json'));
-
-const recursiveMutableSort = (arr) => {
-  arr.sort((a, b) => {
-    if (a.children) recursiveMutableSort(a.children);
-    if (b.children) recursiveMutableSort(b.children);
-    if (a.key > b.key) return 1;
-    if (a.key < b.key) return -1;
-    return 0;
-  });
-};
 
 describe('Object formatter', () => {
   it('Test 1', () => {
@@ -78,8 +69,8 @@ describe('Json formatter', () => {
     const parsedExpected = JSON.parse(expected);
     const parsedActual = JSON.parse(actual);
 
-    recursiveMutableSort(parsedExpected);
-    recursiveMutableSort(parsedActual);
+    sortDifferencesMutable(parsedExpected);
+    sortDifferencesMutable(parsedActual);
 
     expect(parsedExpected).toEqual(parsedActual);
   });
