@@ -83,7 +83,7 @@ describe('Check outputs', () => {
         const clearedExpected = mapOutputClears[outputFormat](expected);
         const clearedActual = mapOutputClears[outputFormat](actual);
 
-        expect(clearedExpected).toEqual(clearedActual);
+        expect(clearedActual).toEqual(clearedExpected);
       });
     });
   });
