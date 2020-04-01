@@ -11,7 +11,7 @@ const mapTypes = {
 
 export default (diffs, type) => {
   if (!mapTypes[type]) {
-    throw new Error(`Such formatter type: '${type}' is not registered!`);
+    throw new Error(`Such formatter type: '${type}' is not supported!`);
   }
 
   return mapTypes[type](diffs);
