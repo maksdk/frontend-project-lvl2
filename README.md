@@ -43,12 +43,12 @@ Object format example:
 
 Plain format example:  
 ===  
-[![asciicast](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p.svg)](https://asciinema.org/a/lPUuFNDKmvJ506e9po3VY5F0p)  
-
+[![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
 
 
 Json format example:  
 ===  
-[![asciicast](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne.svg)](https://asciinema.org/a/vDG8D0G94OcmUkCCtLMpF0fne)  
+[![asciicast](https://asciinema.org/a/J2EBZ6spkOCpDIr8VPJC8aBZm.svg)](https://asciinema.org/a/J2EBZ6spkOCpDIr8VPJC8aBZm)  
+
 
   
