@@ -1,23 +1,28 @@
 // @ts-check
 import _ from 'lodash';
 
+const supportedTypes = ['added', 'deleted', 'changed', 'unchanged', 'complex'];
+
 const stringifyValue = (value) => {
   if (_.isString(value)) return `'${value}'`;
   if (_.isObject(value)) return '[complex value]';
   return value;
 };
 
-const mapTexts = {
-  changed: (key, newValue, oldValue) => (`Property '${key}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`),
+const mapTextsGenerators = {
+  changed: (key, newValue, oldValue) => (
+    `Property '${key}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`
+  ),
   deleted: (key) => `Property '${key}' was deleted`,
   added: (key, newValue) => `Property '${key}' was added with value: ${stringifyValue(newValue)}`,
+  default: () => '',
 };
 
 const removeUnchangedProperties = (differences) => (
   differences.reduce((acc, diff) => {
-    const { children, state } = diff;
+    const { children, type } = diff;
 
-    if (state === 'unchanged') {
+    if (type === 'unchanged') {
       return acc;
     }
 
@@ -47,12 +52,20 @@ const generateFlattenFullPaths = (differences) => {
 const stringifyDifferences = (differences) => (
   differences.map((diff) => {
     const {
-      state,
+      type,
       value,
       oldValue,
       fullPath,
     } = diff;
-    return mapTexts[state](fullPath.join('.'), value, oldValue);
+
+    if (!supportedTypes.includes(type)) {
+      throw new Error(`Such type: ${type} is not supported!`);
+    }
+
+    const generate = mapTextsGenerators[type] || mapTextsGenerators.default;
+    const joinedFullPath = fullPath.join('.');
+
+    return generate(joinedFullPath, value, oldValue);
   }).join('\n')
 );
 

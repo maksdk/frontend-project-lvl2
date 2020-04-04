@@ -1,6 +1,8 @@
 // @ts-check
 import _ from 'lodash';
 
+const supportedTypes = ['added', 'deleted', 'changed', 'unchanged', 'complex'];
+
 const stringifyValue = (value) => {
   if (_.isString(value)) return `"${value}"`;
   if (_.isPlainObject(value)) {
@@ -11,41 +13,34 @@ const stringifyValue = (value) => {
   return value;
 };
 
-const mapStringifiedGenerators = {
-  added: (key, value) => `{"state":"added","key":"${key}","value":${stringifyValue(value)}}`,
-  deleted: (key, value) => `{"state":"deleted","key":"${key}","value":${stringifyValue(value)}}`,
-  unchanged: (key, value) => `{"state":"unchanged","key":"${key}","value":${stringifyValue(value)}}`,
-  changed: (key, value, oldValue) => (
-    `{"state":"changed","key":"${key}","value":${stringifyValue(value)},"oldValue":${stringifyValue(oldValue)}}`
+const stringifiedGenerators = {
+  complex: ({ children, key }, stringifyDiffs) => (
+    `{"type":"complex","key":"${key}","children":${stringifyDiffs(children)}}`
+  ),
+  changed: ({ key, value, oldValue }) => (
+    `{"type":"changed","key":"${key}","value":${stringifyValue(value)},"oldValue":${stringifyValue(oldValue)}}`
+  ),
+  default: ({ type, key, value }) => (
+    `{"type":"${type}","key":"${key}","value":${stringifyValue(value)}}`
   ),
 };
 
 const stringify = (differences) => {
   const result = differences.map((diff) => {
-    const {
-      key,
-      state,
-      value,
-      oldValue,
-      children,
-    } = diff;
+    const { type } = diff;
 
-    if (children) {
-      return `{"key":"${key}","children":${stringify(children)}}`;
+    if (!supportedTypes.includes(type)) {
+      throw new Error(`Such type: ${type} is not supported!`);
     }
 
-    if (!mapStringifiedGenerators[state]) {
-      throw new Error(`Such state: ${state} is not registered!`);
-    }
+    const generate = stringifiedGenerators[type] || stringifiedGenerators.default;
 
-    const stringifiedGenerator = mapStringifiedGenerators[state];
-    return stringifiedGenerator(key, value, oldValue);
+    return generate(diff, stringify);
   });
   return `[${result.join(',')}]`;
 };
 
 const pretyfyJson = (json) => JSON.stringify(JSON.parse(json), null, 2);
-
 
 export default (differences) => {
   const stringifiedDiffs = stringify(differences);

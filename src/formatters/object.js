@@ -4,10 +4,12 @@ import _ from 'lodash';
 const defaultMargin = ' '.repeat(4);
 const lineBreaker = '\n';
 
-const mapPrefixes = {
+const supportedTypes = ['added', 'deleted', 'changed', 'unchanged', 'complex'];
+
+const prefixes = {
   added: '+ ',
-  unchanged: '  ',
   deleted: '- ',
+  default: '  ',
 };
 
 const generateMargin = (depth, margin, prefix = '') => {
@@ -33,40 +35,46 @@ const stringifyValue = (value, depth = 0) => {
   return value;
 };
 
+const stringifiedGenerators = {
+  complex: (diff, depth, stringifyDiffs) => {
+    const { key, children } = diff;
+    const prefix = prefixes.default;
+    const margin = generateMargin(depth, defaultMargin, prefix);
+    return [
+      `${margin}${key}: ${stringifyDiffs(children, depth + 1)}`];
+  },
+
+  changed: (diff, depth) => {
+    const { key, value, oldValue } = diff;
+    const prefix1 = prefixes.added;
+    const prefix2 = prefixes.deleted;
+    const margin1 = generateMargin(depth, defaultMargin, prefix1);
+    const margin2 = generateMargin(depth, defaultMargin, prefix2);
+    return [
+      `${margin1}${key}: ${stringifyValue(value, depth + 1)}`,
+      `${margin2}${key}: ${stringifyValue(oldValue, depth + 1)}`];
+  },
+
+  default: (diff, depth) => {
+    const { type, key, value } = diff;
+    const prefix = prefixes[type] || prefixes.default;
+    const margin = generateMargin(depth, defaultMargin, prefix);
+    return [
+      `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
+  },
+};
+
 const stringifyDifferences = (differences, depth) => {
   const values = differences.reduce((acc, diff) => {
-    const {
-      state,
-      children,
-      key,
-      value,
-      oldValue,
-    } = diff;
+    const { type } = diff;
 
-    if (children) {
-      const prefix = '  ';
-      const margin = generateMargin(depth, defaultMargin, prefix);
-      return [...acc, `${margin}${key}: ${stringifyDifferences(children, depth + 1)}`];
+    if (!supportedTypes.includes(type)) {
+      throw new Error(`Such type: ${type} is not supported!`);
     }
 
-    if (state === 'changed') {
-      const prefix1 = '+ ';
-      const prefix2 = '- ';
-      const margin1 = generateMargin(depth, defaultMargin, prefix1);
-      const margin2 = generateMargin(depth, defaultMargin, prefix2);
-      return [
-        ...acc,
-        `${margin1}${key}: ${stringifyValue(value, depth + 1)}`,
-        `${margin2}${key}: ${stringifyValue(oldValue, depth + 1)}`];
-    }
+    const generate = stringifiedGenerators[type] || stringifiedGenerators.default;
 
-    const prefix = mapPrefixes[state];
-    if (!prefix) {
-      throw new Error(`Such state: ${state} is not registered!`);
-    }
-
-    const margin = generateMargin(depth, defaultMargin, prefix);
-    return [...acc, `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
+    return [...acc, ...generate(diff, depth, stringifyDifferences)];
   }, []);
 
   return wrapValues(values, depth);
@@ -74,5 +82,6 @@ const stringifyDifferences = (differences, depth) => {
 
 export default (differences) => {
   if (differences.length === 0) return '{}';
+
   return stringifyDifferences(differences, 1);
 };
