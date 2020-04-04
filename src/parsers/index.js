@@ -28,7 +28,7 @@ const fixNumberTypes = (obj) => (
 
 export default (config, type) => {
   if (!parsers[type]) {
-    throw new Error(`Such file type: '${type}' is not supported.`);
+    throw new Error(`Such config type: '${type}' is not supported.`);
   }
 
   const parse = parsers[type];
