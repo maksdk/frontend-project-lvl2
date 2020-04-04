@@ -26,11 +26,17 @@ const generateDifferences = (obj1, obj2) => {
 
   return Object.entries(mergedObjs).reduce((acc, [key, value]) => {
     if (isObjectsProperty(obj1, obj2, key)) {
-      return [...acc, { key, children: generateDifferences(obj1[key], obj2[key]) }];
+      return [
+        ...acc,
+        {
+          key,
+          type: 'complex',
+          children: generateDifferences(obj1[key], obj2[key]),
+        }];
     }
 
     if (isUnchangedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, state: 'unchanged' }];
+      return [...acc, { value, key, type: 'unchanged' }];
     }
 
     if (isChangedProperty(obj1, obj2, key)) {
@@ -38,16 +44,16 @@ const generateDifferences = (obj1, obj2) => {
         key,
         value,
         oldValue: obj1[key],
-        state: 'changed',
+        type: 'changed',
       }];
     }
 
     if (isDeletedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, state: 'deleted' }];
+      return [...acc, { value, key, type: 'deleted' }];
     }
 
     if (isAddedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, state: 'added' }];
+      return [...acc, { value, key, type: 'added' }];
     }
 
     throw new Error('Unrecognized type of the difference');
