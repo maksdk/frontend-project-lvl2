@@ -2,6 +2,7 @@
 import _ from 'lodash';
 
 const defaultMargin = ' '.repeat(4);
+const lineBreaker = '\n';
 
 const mapPrefixes = {
   added: '+ ',
@@ -17,8 +18,8 @@ const generateMargin = (depth, margin, prefix = '') => {
 };
 
 const wrapValues = (values, depth) => {
-  const joinedValues = values.join('\n');
-  return `{\n${joinedValues}\n${defaultMargin.repeat(depth - 1)}}`;
+  const joinedValues = values.join(lineBreaker);
+  return `{${lineBreaker}${joinedValues}${lineBreaker}${defaultMargin.repeat(depth - 1)}}`;
 };
 
 const stringifyValue = (value, depth = 0) => {
