@@ -15,10 +15,12 @@ const mapStringifiedGenerators = {
   added: (key, value) => `{"state":"added","key":"${key}","value":${stringifyValue(value)}}`,
   deleted: (key, value) => `{"state":"deleted","key":"${key}","value":${stringifyValue(value)}}`,
   unchanged: (key, value) => `{"state":"unchanged","key":"${key}","value":${stringifyValue(value)}}`,
-  changed: (key, value, oldValue) => `{"state":"changed","key":"${key}","value":${stringifyValue(value)},"oldValue":${stringifyValue(oldValue)}}`,
+  changed: (key, value, oldValue) => (
+    `{"state":"changed","key":"${key}","value":${stringifyValue(value)},"oldValue":${stringifyValue(oldValue)}}`
+  ),
 };
 
-const form = (differences) => {
+const stringify = (differences) => {
   const result = differences.map((diff) => {
     const {
       key,
@@ -29,7 +31,7 @@ const form = (differences) => {
     } = diff;
 
     if (children) {
-      return `{"key":"${key}","children":${form(children)}}`;
+      return `{"key":"${key}","children":${stringify(children)}}`;
     }
 
     if (!mapStringifiedGenerators[state]) {
@@ -42,4 +44,10 @@ const form = (differences) => {
   return `[${result.join(',')}]`;
 };
 
-export default form;
+const pretyfyJson = (json) => JSON.stringify(JSON.parse(json), null, 2);
+
+
+export default (differences) => {
+  const stringifiedDiffs = stringify(differences);
+  return pretyfyJson(stringifiedDiffs);
+};
