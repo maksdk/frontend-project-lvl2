@@ -22,7 +22,7 @@ const wrapValues = (values, depth) => {
 };
 
 const stringifyValue = (value, depth = 0) => {
-  if (_.isString(value)) return `'${value}'`;
+  if (_.isString(value)) return value;
   if (_.isPlainObject(value)) {
     const values = Object.entries(value)
       .map(([k, v]) => `${generateMargin(depth, defaultMargin, '')}${k}: ${stringifyValue(v, depth + 1)}`);
