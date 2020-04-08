@@ -11,11 +11,11 @@ const parsers = {
 
 const isStringyfiedNumber = (value) => _.isString(value) && !Number.isNaN(Number(value));
 
-const fixNumberTypes = (obj) => (
+const convertNumbers = (obj) => (
   Object.entries(obj)
     .reduce((acc, [key, value]) => {
       if (_.isPlainObject(value)) {
-        return { ...acc, [key]: fixNumberTypes(value) };
+        return { ...acc, [key]: convertNumbers(value) };
       }
 
       if (isStringyfiedNumber(value)) {
@@ -33,7 +33,7 @@ export default (config, type) => {
 
   const parse = parsers[type];
   const parsedResult = parse(config);
-  const fixedNumberTypesResult = fixNumberTypes(parsedResult);
+  const completedResult = convertNumbers(parsedResult);
 
-  return fixedNumberTypesResult;
+  return completedResult;
 };
