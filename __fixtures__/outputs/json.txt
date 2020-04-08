@@ -1,98 +1,98 @@
 [
   {
-    "type": "complex",
     "key": "common",
+    "type": "complex",
     "children": [
       {
-        "type": "unchanged",
+        "value": "Value 1",
         "key": "setting1",
-        "value": "Value 1"
+        "type": "unchanged"
       },
       {
-        "type": "deleted",
+        "value": 200,
         "key": "setting2",
-        "value": 200
+        "type": "deleted"
       },
       {
-        "type": "changed",
         "key": "setting3",
         "value": {
           "key": "value"
         },
-        "oldValue": true
+        "oldValue": true,
+        "type": "changed"
       },
       {
-        "type": "complex",
         "key": "setting6",
+        "type": "complex",
         "children": [
           {
-            "type": "unchanged",
+            "value": "value",
             "key": "key",
-            "value": "value"
+            "type": "unchanged"
           },
           {
-            "type": "added",
+            "value": "vops",
             "key": "ops",
-            "value": "vops"
+            "type": "added"
           }
         ]
       },
       {
-        "type": "added",
+        "value": false,
         "key": "follow",
-        "value": false
+        "type": "added"
       },
       {
-        "type": "added",
+        "value": "blah blah",
         "key": "setting4",
-        "value": "blah blah"
+        "type": "added"
       },
       {
-        "type": "added",
-        "key": "setting5",
         "value": {
           "key5": "value5"
-        }
+        },
+        "key": "setting5",
+        "type": "added"
       }
     ]
   },
   {
-    "type": "complex",
     "key": "group1",
+    "type": "complex",
     "children": [
       {
-        "type": "changed",
         "key": "baz",
         "value": "bars",
-        "oldValue": "bas"
+        "oldValue": "bas",
+        "type": "changed"
       },
       {
-        "type": "unchanged",
+        "value": "bar",
         "key": "foo",
-        "value": "bar"
+        "type": "unchanged"
       },
       {
-        "type": "changed",
         "key": "nest",
         "value": "str",
         "oldValue": {
           "key": "value"
-        }
+        },
+        "type": "changed"
       }
     ]
   },
   {
-    "type": "deleted",
-    "key": "group2",
     "value": {
       "abc": 123456
-    }
+    },
+    "key": "group2",
+    "type": "deleted"
   },
   {
-    "type": "added",
-    "key": "group3",
     "value": {
       "fee": 100500
-    }
+    },
+    "key": "group3",
+    "type": "added"
   }
 ]
