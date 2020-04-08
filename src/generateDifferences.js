@@ -22,38 +22,36 @@ const isUnchangedProperty = (obj1, obj2, key) => (
 );
 
 const generateDifferences = (obj1, obj2) => {
-  const mergedObjs = { ...obj1, ...obj2 };
+  const keys = _.union(_.keys(obj1), _.keys(obj2));
 
-  return Object.entries(mergedObjs).reduce((acc, [key, value]) => {
+  return keys.map((key) => {
     if (isObjectsProperty(obj1, obj2, key)) {
-      return [
-        ...acc,
-        {
-          key,
-          type: 'complex',
-          children: generateDifferences(obj1[key], obj2[key]),
-        }];
+      return {
+        key,
+        type: 'complex',
+        children: generateDifferences(obj1[key], obj2[key]),
+      };
     }
 
     if (isUnchangedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, type: 'unchanged' }];
+      return { value: obj1[key], key, type: 'unchanged' };
     }
 
     if (isChangedProperty(obj1, obj2, key)) {
-      return [...acc, {
+      return {
         key,
-        value,
+        value: obj2[key],
         oldValue: obj1[key],
         type: 'changed',
-      }];
+      };
     }
 
     if (isDeletedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, type: 'deleted' }];
+      return { value: obj1[key], key, type: 'deleted' };
     }
 
     if (isAddedProperty(obj1, obj2, key)) {
-      return [...acc, { value, key, type: 'added' }];
+      return { value: obj2[key], key, type: 'added' };
     }
 
     throw new Error('Unrecognized type of the difference');
