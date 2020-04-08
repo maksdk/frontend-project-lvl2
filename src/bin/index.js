@@ -2,7 +2,7 @@
 
 // @ts-check
 import { program } from 'commander';
-import generate from '../main';
+import generate from '../index';
 // @ts-ignore
 import packageConfig from '../../package.json';
 

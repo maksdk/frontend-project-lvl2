@@ -1,7 +1,7 @@
 // @ts-check
 import fs from 'fs';
 import path from 'path';
-import generate from '../src/main';
+import generate from '../src/index';
 
 const outputFormats = ['object', 'plain', 'json'];
 const fileFormats = ['json', 'yaml', 'ini'];
