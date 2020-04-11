@@ -27,7 +27,7 @@ const stringifyValue = (value, depth = 0) => {
   return value;
 };
 
-const getPrefixFromType = (type) => {
+const getPrefixByType = (type) => {
   switch (type) {
     case 'added':
       return '+ ';
@@ -44,7 +44,7 @@ const getPrefixFromType = (type) => {
 
 const stringifyComplexDiff = (diff, depth, formDiffs) => {
   const { key, children } = diff;
-  const prefix = getPrefixFromType('complex');
+  const prefix = getPrefixByType('complex');
   const margin = generateMargin(depth, defaultMargin, prefix);
   return [
     `${margin}${key}: ${formDiffs(children, depth + 1)}`];
@@ -52,8 +52,8 @@ const stringifyComplexDiff = (diff, depth, formDiffs) => {
 
 const stringifyChangedDiff = (diff, depth) => {
   const { key, value, oldValue } = diff;
-  const prefix1 = getPrefixFromType('added');
-  const prefix2 = getPrefixFromType('deleted');
+  const prefix1 = getPrefixByType('added');
+  const prefix2 = getPrefixByType('deleted');
   const margin1 = generateMargin(depth, defaultMargin, prefix1);
   const margin2 = generateMargin(depth, defaultMargin, prefix2);
   return [
@@ -63,7 +63,7 @@ const stringifyChangedDiff = (diff, depth) => {
 
 const stringifyDiff = (diff, depth) => {
   const { type, key, value } = diff;
-  const prefix = getPrefixFromType(type);
+  const prefix = getPrefixByType(type);
   const margin = generateMargin(depth, defaultMargin, prefix);
   return [
     `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
