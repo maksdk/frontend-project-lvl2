@@ -1,77 +1,51 @@
 // @ts-check
 import _ from 'lodash';
 
-const supportedTypes = ['added', 'deleted', 'changed', 'unchanged', 'complex'];
-
 const stringifyValue = (value) => {
   if (_.isString(value)) return `'${value}'`;
   if (_.isObject(value)) return '[complex value]';
   return value;
 };
 
-const mapTextsGenerators = {
-  changed: (key, newValue, oldValue) => (
-    `Property '${key}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`
-  ),
-  deleted: (key) => `Property '${key}' was deleted`,
-  added: (key, newValue) => `Property '${key}' was added with value: ${stringifyValue(newValue)}`,
-  default: () => '',
+const stringifyDiff = (diff) => {
+  const {
+    type,
+    value,
+    oldValue,
+    keys,
+  } = diff;
+
+  switch (type) {
+    case 'changed':
+      return `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(value)}`;
+    case 'deleted':
+      return `Property '${keys.join('.')}' was deleted`;
+    case 'added':
+      return `Property '${keys.join('.')}' was added with value: ${stringifyValue(value)}`;
+    case 'complex':
+    case 'unchanged':
+      return '';
+    default:
+      throw new Error(`Such type: ${type} is not supported!`);
+  }
 };
 
-const removeUnchangedProperties = (differences) => (
-  differences.reduce((acc, diff) => {
-    const { children, type } = diff;
+const stringifyDiffs = (diffs) => {
+  const iter = (diff, diffsAcc, keysAcc) => {
+    const { children, key, type } = diff;
 
-    if (type === 'unchanged') {
-      return acc;
+    if (type === 'unchanged') return diffsAcc;
+
+    const newKeysAcc = [...keysAcc, key];
+
+    if (children) {
+      return children.reduce((acc, child) => iter(child, acc, newKeysAcc), diffsAcc);
     }
 
-    if (Array.isArray(children)) {
-      return [...acc, { ...diff, children: removeUnchangedProperties(children) }];
-    }
-
-    return [...acc, diff];
-  }, [])
-);
-
-const generateFlattenFullPaths = (differences) => {
-  const iter = (diff, pathAcc, acc) => {
-    const { key, children } = diff;
-    const newPath = [...pathAcc, key];
-
-    if (Array.isArray(children)) {
-      return children.reduce((newAcc, newDiff) => iter(newDiff, newPath, newAcc), acc);
-    }
-
-    return [...acc, { ...diff, fullPath: newPath }];
+    return [...diffsAcc, stringifyDiff({ ...diff, keys: newKeysAcc })];
   };
 
-  return differences.reduce((acc, diff) => [...acc, ...iter(diff, [], [])], []);
+  return diffs.reduce((diffsAcc, diff) => iter(diff, diffsAcc, []), []).join('\n');
 };
 
-const stringifyDifferences = (differences) => (
-  differences.map((diff) => {
-    const {
-      type,
-      value,
-      oldValue,
-      fullPath,
-    } = diff;
-
-    if (!supportedTypes.includes(type)) {
-      throw new Error(`Such type: ${type} is not supported!`);
-    }
-
-    const generate = mapTextsGenerators[type] || mapTextsGenerators.default;
-    const joinedFullPath = fullPath.join('.');
-
-    return generate(joinedFullPath, value, oldValue);
-  }).join('\n')
-);
-
-export default (differences) => {
-  const clearedFromUnchanged = removeUnchangedProperties(differences);
-  const flattenFullPaths = generateFlattenFullPaths(clearedFromUnchanged);
-  const stringifiedDiffs = stringifyDifferences(flattenFullPaths);
-  return stringifiedDiffs;
-};
+export default (diffs) => stringifyDiffs(diffs);
