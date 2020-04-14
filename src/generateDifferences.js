@@ -1,31 +1,24 @@
 // @ts-check
 import _ from 'lodash';
 
-const isObjectsProperty = (obj1, obj2, key) => (
-  _.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])
-);
-
-const isChangedProperty = (obj1, obj2, key) => (
-  _.has(obj1, key) && _.has(obj2, key) && !_.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))
-);
-
-const isDeletedProperty = (obj1, obj2, key) => (
-  _.has(obj1, key) && !_.has(obj2, key)
-);
-
-const isAddedProperty = (obj1, obj2, key) => (
-  !_.has(obj1, key) && _.has(obj2, key)
-);
-
-const isUnchangedProperty = (obj1, obj2, key) => (
-  _.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))
-);
+// TODO: delete comments
+// DONE: Удалил лишние функции. Как мне казалось они более читаемые.
+// DONE: Поменял порядок проверок. Теперь в начале идут проверки на существования свойств,
+// а после уже на их сравнение
 
 const generateDifferences = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
 
   return keys.map((key) => {
-    if (isObjectsProperty(obj1, obj2, key)) {
+    if (_.has(obj1, key) && !_.has(obj2, key)) {
+      return { value: obj1[key], key, type: 'deleted' };
+    }
+
+    if (!_.has(obj1, key) && _.has(obj2, key)) {
+      return { value: obj2[key], key, type: 'added' };
+    }
+
+    if (_.isPlainObject(obj1[key]) && _.isPlainObject(obj2[key])) {
       return {
         key,
         type: 'complex',
@@ -33,11 +26,11 @@ const generateDifferences = (obj1, obj2) => {
       };
     }
 
-    if (isUnchangedProperty(obj1, obj2, key)) {
+    if (_.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))) {
       return { value: obj1[key], key, type: 'unchanged' };
     }
 
-    if (isChangedProperty(obj1, obj2, key)) {
+    if (!_.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))) {
       return {
         key,
         newValue: obj2[key],
@@ -46,15 +39,9 @@ const generateDifferences = (obj1, obj2) => {
       };
     }
 
-    if (isDeletedProperty(obj1, obj2, key)) {
-      return { value: obj1[key], key, type: 'deleted' };
-    }
-
-    if (isAddedProperty(obj1, obj2, key)) {
-      return { value: obj2[key], key, type: 'added' };
-    }
-
-    throw new Error('Unrecognized type of the difference');
+    throw new Error(`Failed to set the type of difference between the configs.
+      Config 1: ${obj1 ? JSON.stringify(obj1) : `"${obj1}"`}
+      Config 2: ${obj2 ? JSON.stringify(obj2) : `"${obj2}"`}`);
   }, []);
 };
 
