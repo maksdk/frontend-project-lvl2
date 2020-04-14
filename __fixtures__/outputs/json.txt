@@ -15,7 +15,7 @@
       },
       {
         "key": "setting3",
-        "value": {
+        "newValue": {
           "key": "value"
         },
         "oldValue": true,
@@ -62,7 +62,7 @@
     "children": [
       {
         "key": "baz",
-        "value": "bars",
+        "newValue": "bars",
         "oldValue": "bas",
         "type": "changed"
       },
@@ -73,7 +73,7 @@
       },
       {
         "key": "nest",
-        "value": "str",
+        "newValue": "str",
         "oldValue": {
           "key": "value"
         },

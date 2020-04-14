@@ -51,13 +51,13 @@ const stringifyComplexDiff = (diff, depth, formDiffs) => {
 };
 
 const stringifyChangedDiff = (diff, depth) => {
-  const { key, value, oldValue } = diff;
+  const { key, newValue, oldValue } = diff;
   const prefix1 = getPrefixByType('added');
   const prefix2 = getPrefixByType('deleted');
   const margin1 = generateMargin(depth, defaultMargin, prefix1);
   const margin2 = generateMargin(depth, defaultMargin, prefix2);
   return [
-    `${margin1}${key}: ${stringifyValue(value, depth + 1)}`,
+    `${margin1}${key}: ${stringifyValue(newValue, depth + 1)}`,
     `${margin2}${key}: ${stringifyValue(oldValue, depth + 1)}`];
 };
 

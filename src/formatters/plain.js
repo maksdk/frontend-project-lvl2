@@ -12,12 +12,13 @@ const stringifyDiff = (diff) => {
     type,
     value,
     oldValue,
+    newValue,
     keys,
   } = diff;
 
   switch (type) {
     case 'changed':
-      return `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(value)}`;
+      return `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`;
     case 'deleted':
       return `Property '${keys.join('.')}' was deleted`;
     case 'added':

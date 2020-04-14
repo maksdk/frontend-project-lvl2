@@ -40,7 +40,7 @@ const generateDifferences = (obj1, obj2) => {
     if (isChangedProperty(obj1, obj2, key)) {
       return {
         key,
-        value: obj2[key],
+        newValue: obj2[key],
         oldValue: obj1[key],
         type: 'changed',
       };
