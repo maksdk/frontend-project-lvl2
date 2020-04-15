@@ -7,46 +7,37 @@ const stringifyValue = (value) => {
   return value;
 };
 
-const stringifyDiff = (diff) => {
-  const {
-    type,
-    value,
-    oldValue,
-    newValue,
-    keys,
-  } = diff;
-
-  switch (type) {
-    case 'changed':
-      return `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`;
-    case 'deleted':
-      return `Property '${keys.join('.')}' was deleted`;
-    case 'added':
-      return `Property '${keys.join('.')}' was added with value: ${stringifyValue(value)}`;
-    case 'complex':
-    case 'unchanged':
-      return '';
-    default:
-      throw new Error(`Such type: ${type} is not supported!`);
-  }
-};
-
-const stringifyDiffs = (diffs) => {
+const formDiffs = (diffs) => {
   const iter = (diff, diffsAcc, keysAcc) => {
-    const { children, key, type } = diff;
+    const {
+      type,
+      value,
+      oldValue,
+      newValue,
+      children,
+      key,
+    } = diff;
 
-    if (type === 'unchanged') return diffsAcc;
+    const keys = [...keysAcc, key];
 
-    const newKeysAcc = [...keysAcc, key];
-
-    if (children) {
-      return children.reduce((acc, child) => iter(child, acc, newKeysAcc), diffsAcc);
+    switch (type) {
+      case 'changed':
+        return [...diffsAcc,
+          `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`];
+      case 'deleted':
+        return [...diffsAcc, `Property '${keys.join('.')}' was deleted`];
+      case 'added':
+        return [...diffsAcc, `Property '${keys.join('.')}' was added with value: ${stringifyValue(value)}`];
+      case 'complex':
+        return children.reduce((acc, child) => iter(child, acc, keys), diffsAcc);
+      case 'unchanged':
+        return diffsAcc;
+      default:
+        throw new Error(`Such type: ${type} is not supported!`);
     }
-
-    return [...diffsAcc, stringifyDiff({ ...diff, keys: newKeysAcc })];
   };
 
   return diffs.reduce((diffsAcc, diff) => iter(diff, diffsAcc, []), []).join('\n');
 };
 
-export default (diffs) => stringifyDiffs(diffs);
+export default (diffs) => formDiffs(diffs);
