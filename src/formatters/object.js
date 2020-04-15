@@ -1,87 +1,59 @@
 // @ts-check
 import _ from 'lodash';
 
-const defaultMargin = ' '.repeat(4);
-const lineBreaker = '\n';
+const defaultMarginLeft = ' '.repeat(4);
 
-const generateMargin = (depth, margin, prefix = '') => {
-  const fullMargin = margin.repeat(depth);
+const generateMargin = (depth, prefix = '') => {
+  const fullMargin = defaultMarginLeft.repeat(depth);
   const splitedMargin = fullMargin.split('');
   splitedMargin.splice(splitedMargin.length - prefix.length, prefix.length, prefix);
   return splitedMargin.join('');
 };
 
 const wrapStringifiedDiffs = (diffs, depth) => {
-  const joinedDiffs = diffs.join(lineBreaker);
-  return `{${lineBreaker}${joinedDiffs}${lineBreaker}${defaultMargin.repeat(depth - 1)}}`;
+  const joinedDiffs = diffs.join('\n');
+  return `{${'\n'}${joinedDiffs}${'\n'}${defaultMarginLeft.repeat(depth - 1)}}`;
 };
 
 const stringifyValue = (value, depth = 0) => {
   if (_.isString(value)) return value;
   if (_.isPlainObject(value)) {
     const values = Object.entries(value)
-      .map(([k, v]) => `${generateMargin(depth, defaultMargin, '')}${k}: ${stringifyValue(v, depth + 1)}`);
+      .map(([k, v]) => `${generateMargin(depth, '')}${k}: ${stringifyValue(v, depth + 1)}`);
 
     return wrapStringifiedDiffs(values, depth);
   }
   return value;
 };
 
-const getPrefixByType = (type) => {
-  switch (type) {
-    case 'added':
-      return '+ ';
-    case 'deleted':
-      return '- ';
-    case 'complex':
-    case 'changed':
-    case 'unchanged':
-      return '  ';
-    default:
-      throw new Error(`Such type: ${type} is not supported!`);
-  }
-};
-
-const stringifyComplexDiff = (diff, depth, formDiffs) => {
-  const { key, children } = diff;
-  const prefix = getPrefixByType('complex');
-  const margin = generateMargin(depth, defaultMargin, prefix);
-  return [
-    `${margin}${key}: ${formDiffs(children, depth + 1)}`];
-};
-
-const stringifyChangedDiff = (diff, depth) => {
-  const { key, newValue, oldValue } = diff;
-  const prefix1 = getPrefixByType('added');
-  const prefix2 = getPrefixByType('deleted');
-  const margin1 = generateMargin(depth, defaultMargin, prefix1);
-  const margin2 = generateMargin(depth, defaultMargin, prefix2);
-  return [
-    `${margin1}${key}: ${stringifyValue(newValue, depth + 1)}`,
-    `${margin2}${key}: ${stringifyValue(oldValue, depth + 1)}`];
-};
-
-const stringifyDiff = (diff, depth) => {
-  const { type, key, value } = diff;
-  const prefix = getPrefixByType(type);
-  const margin = generateMargin(depth, defaultMargin, prefix);
-  return [
-    `${margin}${key}: ${stringifyValue(value, depth + 1)}`];
-};
-
 const formDiffs = (diffs, depth) => {
   const stringifiedDiffs = diffs.map((diff) => {
-    const { type } = diff;
+    const {
+      type,
+      value,
+      key,
+      newValue,
+      oldValue,
+      children,
+    } = diff;
 
     switch (type) {
       case 'complex':
-        return stringifyComplexDiff(diff, depth, formDiffs);
+        return [
+          `${generateMargin(depth, '  ')}${key}: ${formDiffs(children, depth + 1)}`];
       case 'changed':
-        return stringifyChangedDiff(diff, depth);
+        return [
+          `${generateMargin(depth, '+ ')}${key}: ${stringifyValue(newValue, depth + 1)}`,
+          `${generateMargin(depth, '- ')}${key}: ${stringifyValue(oldValue, depth + 1)}`];
       case 'added':
+        return [
+          `${generateMargin(depth, '+ ')}${key}: ${stringifyValue(value, depth + 1)}`];
       case 'deleted':
+        return [
+          `${generateMargin(depth, '- ')}${key}: ${stringifyValue(value, depth + 1)}`];
       case 'unchanged':
-        return stringifyDiff(diff, depth);
+        return [
+          `${generateMargin(depth, '  ')}${key}: ${stringifyValue(value, depth + 1)}`];
       default:
         throw new Error(`Such type: ${type} is not supported!`);
     }
