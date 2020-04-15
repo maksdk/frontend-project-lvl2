@@ -1,11 +1,6 @@
 // @ts-check
 import _ from 'lodash';
 
-// TODO: delete comments
-// DONE: Удалил лишние функции. Как мне казалось они более читаемые.
-// DONE: Поменял порядок проверок. Теперь в начале идут проверки на существования свойств,
-// а после уже на их сравнение
-
 const generateDifferences = (obj1, obj2) => {
   const keys = _.union(_.keys(obj1), _.keys(obj2));
 
