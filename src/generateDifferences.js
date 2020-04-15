@@ -34,7 +34,7 @@ const generateDifferences = (obj1, obj2) => {
       };
     }
 
-    throw new Error(`Failed to set the type of difference between the configs.
+    throw new Error(`Failed to detect the type of difference between two configs.
       Config 1: ${obj1 ? JSON.stringify(obj1) : `"${obj1}"`}
       Config 2: ${obj2 ? JSON.stringify(obj2) : `"${obj2}"`}`);
   }, []);
