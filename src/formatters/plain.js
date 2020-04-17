@@ -7,8 +7,8 @@ const stringifyValue = (value) => {
   return value;
 };
 
-const formDiffs = (diffs) => {
-  const iter = (diff, diffsAcc, keysAcc) => {
+const buildDiffs = (diffs, path) => (
+  diffs.map((diff) => {
     const {
       type,
       value,
@@ -18,26 +18,26 @@ const formDiffs = (diffs) => {
       key,
     } = diff;
 
-    const keys = [...keysAcc, key];
+    const nestedPath = [...path, key];
 
     switch (type) {
       case 'changed':
-        return [...diffsAcc,
-          `Property '${keys.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`];
+        return `Property '${nestedPath.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`;
       case 'deleted':
-        return [...diffsAcc, `Property '${keys.join('.')}' was deleted`];
+        return `Property '${nestedPath.join('.')}' was deleted`;
       case 'added':
-        return [...diffsAcc, `Property '${keys.join('.')}' was added with value: ${stringifyValue(value)}`];
-      case 'complex':
-        return children.reduce((acc, child) => iter(child, acc, keys), diffsAcc);
+        return `Property '${nestedPath.join('.')}' was added with value: ${stringifyValue(value)}`;
       case 'unchanged':
-        return diffsAcc;
+        return '';
+      case 'complex':
+        return buildDiffs(children, nestedPath);
       default:
         throw new Error(`Such type: ${type} is not supported!`);
     }
-  };
+  }).flat().filter((v) => v !== '')
+);
 
-  return diffs.reduce((diffsAcc, diff) => iter(diff, diffsAcc, []), []).join('\n');
+export default (diffs) => {
+  const result = buildDiffs(diffs, []);
+  return result.join('\n');
 };
-
-export default (diffs) => formDiffs(diffs);
