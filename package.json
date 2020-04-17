@@ -1,6 +1,6 @@
 {
   "name": "frontend-project-lvl2-maksdk",
-  "version": "1.11.2",
+  "version": "1.11.3",
   "description": "hexlet project",
   "main": "dist/index.js",
   "bin": {
