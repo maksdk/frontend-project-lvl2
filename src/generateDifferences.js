@@ -21,11 +21,11 @@ const generateDifferences = (obj1, obj2) => {
       };
     }
 
-    if (_.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))) {
+    if (obj1[key] === obj2[key]) {
       return { value: obj1[key], key, type: 'unchanged' };
     }
 
-    if (!_.isEqual(_.pick(obj1, [key]), _.pick(obj2, [key]))) {
+    if (obj1[key] !== obj2[key]) {
       return {
         key,
         newValue: obj2[key],
@@ -37,7 +37,7 @@ const generateDifferences = (obj1, obj2) => {
     throw new Error(`Failed to detect the type of difference between two configs.
       Config 1: ${obj1 ? JSON.stringify(obj1) : `"${obj1}"`}
       Config 2: ${obj2 ? JSON.stringify(obj2) : `"${obj2}"`}`);
-  }, []);
+  });
 };
 
 export default generateDifferences;
