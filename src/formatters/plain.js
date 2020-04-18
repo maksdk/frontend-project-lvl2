@@ -8,33 +8,33 @@ const stringifyValue = (value) => {
 };
 
 const buildDiffs = (diffs, path) => (
-  diffs.map((diff) => {
-    const {
-      type,
-      value,
-      oldValue,
-      newValue,
-      children,
-      key,
-    } = diff;
+  diffs.filter((diff) => diff.type !== 'unchanged')
+    .map((diff) => {
+      const {
+        type,
+        value,
+        oldValue,
+        newValue,
+        children,
+        key,
+      } = diff;
 
-    const nestedPath = [...path, key];
+      const nestedPath = [...path, key];
 
-    switch (type) {
-      case 'changed':
-        return `Property '${nestedPath.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`;
-      case 'deleted':
-        return `Property '${nestedPath.join('.')}' was deleted`;
-      case 'added':
-        return `Property '${nestedPath.join('.')}' was added with value: ${stringifyValue(value)}`;
-      case 'unchanged':
-        return '';
-      case 'complex':
-        return buildDiffs(children, nestedPath);
-      default:
-        throw new Error(`Such type: ${type} is not supported!`);
-    }
-  }).flat().filter((v) => v !== '')
+      switch (type) {
+        case 'changed':
+          return `Property '${nestedPath.join('.')}' was changed from ${stringifyValue(oldValue)} to ${stringifyValue(newValue)}`;
+        case 'deleted':
+          return `Property '${nestedPath.join('.')}' was deleted`;
+        case 'added':
+          return `Property '${nestedPath.join('.')}' was added with value: ${stringifyValue(value)}`;
+        case 'complex':
+          return buildDiffs(children, nestedPath);
+        default:
+          throw new Error(`Such type: ${type} is not supported!`);
+      }
+    })
+    .flat()
 );
 
 export default (diffs) => {
