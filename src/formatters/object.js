@@ -41,7 +41,9 @@ const buildDiffs = (diffs, depth) => {
       case 'complex':
         return `${generateIndent(depth, '  ')}${key}: ${buildDiffs(children, depth + 1)}`;
       case 'changed':
-        return `${generateIndent(depth, '+ ')}${key}: ${stringifyValue(newValue, depth + 1)}\n${generateIndent(depth, '- ')}${key}: ${stringifyValue(oldValue, depth + 1)}`;
+        return [
+          `${generateIndent(depth, '+ ')}${key}: ${stringifyValue(newValue, depth + 1)}`,
+          `${generateIndent(depth, '- ')}${key}: ${stringifyValue(oldValue, depth + 1)}`];
       case 'added':
         return `${generateIndent(depth, '+ ')}${key}: ${stringifyValue(value, depth + 1)}`;
       case 'deleted':
@@ -51,7 +53,7 @@ const buildDiffs = (diffs, depth) => {
       default:
         throw new Error(`Such type: ${type} is not supported!`);
     }
-  });
+  }).flat();
 
   return wrapStringifiedDiffs(stringifiedDiffs, depth);
 };
